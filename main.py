@@ -39,7 +39,7 @@ def favorite_post(id):
 
 
                                         # Taking basic info
-print("Hello!, may I help you with you yiff collection?\nBut first, I'd like to know where is your collection.\nProvide with smth like C:\\Users\\Hattie Ragales\\user\\yiff")
+print("Hello!, may I help you with you yiff collection?\nBut first, I'd like to know where is your collection.\nProvide with smth like C:\\Users\\Hattie Ragales\\Pictures\\yiff")
 dir = input(r'Directory: ')
 USERNAME = 'hattie_r'                   #INSERT YOUR USERNAME
 API_KEY = 'youaresuchanaughtyboy'       #INSERT YOUR API KEY (if you don't know where to get it, read README.md file)
