@@ -41,8 +41,8 @@ def favorite_post(id):
                                         # Taking basic info
 print("Hello!, may I help you with you yiff collection?\nBut first, I'd like to know where is your collection.\nProvide with smth like C:\\Users\\Hattie Ragales\\user\\yiff")
 dir = input(r'Directory: ')
-USERNAME = 'Hattie_r' 
-API_KEY = 'ddukY5abLtQ2xCog189Z6451'
+USERNAME = 'hattie_r'                   #INSERT YOUR USERNAME
+API_KEY = 'youaresuchanaughtyboy'       #INSERT YOUR API KEY (if you don't know where to get it, read README.md file)
 timeout = 5
 counter = 0
 Found = []
