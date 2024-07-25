@@ -41,9 +41,9 @@ def favorite_post(id):
                                         # Taking basic info
 print("Hello!, may I help you with you yiff collection?\nBut first, I'd like to know where is your collection.\nProvide with smth like C:\\Users\\Hattie Ragales\\Pictures\\yiff")
 dir = input(r'Directory: ')
-USERNAME = 'hattie_r'                   #INSERT YOUR USERNAME
-API_KEY = 'yourAPIkeyhere'    #INSERT YOUR API KEY (if you don't know where to get it, read README.md file)
-timeout = 5
+USERNAME = input("Enter your e621 username: ")    #INSERT YOUR USERNAME
+API_KEY = input("Enter your e621 API key (README.md if don't knwo what is it): ")    #INSERT YOUR API KEY (if you don't know where to get it, read README.md file)
+timeout = 5                             #Change this if you have too many requests problems
 counter = 0
 Found = []
 notFound = []
@@ -90,7 +90,7 @@ for path in list1:
 
 
 
-
+# Sortation of files found and not found on e621
 os.mkdir('no_e621')
 print('Found:' + '\n' + str(Found))
 for i in Found:
