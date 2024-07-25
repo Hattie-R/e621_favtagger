@@ -16,3 +16,5 @@ Go to Account → Manage API Access → Insert your password → Copy the API ke
 ♦ It cannot look for videos and animated GIFs.
 
 ♦ It says success for deleted from e621 files, and then deletes the file itself on the sortation procedure.
+
+Testing the commitment
