@@ -27,7 +27,7 @@ def download_image(url, id, artist):
     else:
         print(f"Failed to download image. Status code: {response.status_code}")
 
-def favorite_post(id,USERNAME, API_KEY):
+def favorite_post(id, USERNAME, API_KEY):
     headers = {'user-agent': 'hydrusBatchSauce/corposim'}
     auth = requests.auth.HTTPBasicAuth(USERNAME, API_KEY)
     requests.post(url="https://e621.net/favorites.json", auth=auth, headers=headers, json={ "post_id": id })
