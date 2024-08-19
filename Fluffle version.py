@@ -17,6 +17,10 @@ os.chdir(dir)
 image_list = os.listdir()
 print('We found ' + str(len(image_list)) + ' files')
 
+for y in image_list:
+    if y.split(".")[-1] == "mp4" or y.split(".")[-1] == "MP4" or y.split(".")[-1] == "webm":
+        print("!!!This program works only with IMAGES, please replace all the videos in a separete folder!!!")
+
 for i in image_list:
     # Preprocess the image as per Fluffle its documentation
     
@@ -51,8 +55,8 @@ for i in image_list:
         "limit": 8
     }
 
-    json_data = post("https://api.fluffle.xyz/v1/search", headers=headers, files=files, data=data, json={ "location": id }).json()
-    image.close()
+    json_data = post("https://api.fluffle.xyz/v1/search", headers=headers, files=files, data=data).json()
+    
     res1 = []
     for g in range(1):
         res1.append(json_data["results"][g]["location"]) 
@@ -60,7 +64,10 @@ for i in image_list:
     ids = json_data["results"][g]["location"].split("/")[-1]
     
     if json_data["results"][g]["score"]*100 >= 95:
-        favorite_post(ids, username, )
+        favorite_post(ids, username, api)
         os.remove(i)
     else:
-        print("Warning! Low similarity score\nThe post was not dowloaded")
+        print("\nWarning! Low similarity score!\nThe post was not dowloaded and wasnot added to your favourites on e621!")
+        second_json_data = post("https://api.fluffle.xyz/v1/search", headers=headers, files=files, data = {"includeNsfw": True,"platforms": ["fur affinity"],"limit": 8}).json()
+        print("Go check " + str(second_json_data["results"][0]["location"]) + "    " + str(round(second_json_data["results"][0]["score"]*100))+ "%")
+    image.close()
