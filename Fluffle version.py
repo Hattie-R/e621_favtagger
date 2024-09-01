@@ -1,11 +1,11 @@
 #This is the faster version that uses Fluffle (https://fluffle.xyz/) to find the image on the e621
 #It skips the videos in the chosen folder
-#This version DOES NOT substitutes the original file
 
 import io
 import os
-import requests
+import shutil
 import urllib
+import requests
 from PIL import Image
 from requests import post
 
@@ -15,6 +15,11 @@ def getting_files():
     os.chdir(dir)
     images = os.listdir()
     print('We found ' + str(len(images)) + ' files')
+
+def video_check(files_list):
+    for y in files_list:
+        if y.split(".")[-1] == "mp4" or y.split(".")[-1] == "MP4" or y.split(".")[-1] == "webm":
+            files_list.remove(y)
 
 def calculate_size(width, height, target):
     def calculate_size(d1, d2, d1_target): return round(d1_target / d1 * d2)
@@ -32,7 +37,8 @@ def download_image(url):
         post_image = response.json()["post"]["file"]["url"]
         file_name = artist + "_" + str(post_id) + "." + post_image.split('.')[-1]
         urllib.request.urlretrieve(post_image, file_name)
-        print("Image downloaded successfully.\n")
+        print("\tImage downloaded successfully.\n")
+        return file_name
     else:
         print(f"Failed to download image. Status code: {response.status_code}")
 
@@ -41,20 +47,19 @@ def favorite_post(id, USERNAME, API_KEY):
     auth = requests.auth.HTTPBasicAuth(USERNAME, API_KEY)
     requests.post(url="https://e621.net/favorites.json", auth=auth, headers=headers, json={ "post_id": id })
 
-def video_check(files_list):
-    for y in files_list:
-        if y.split(".")[-1] == "mp4" or y.split(".")[-1] == "MP4" or y.split(".")[-1] == "webm":
-            files_list.remove(y)
-
 def is_deleted_e621(url):
     response = requests.get(url + ".json", headers = {'user-agent': 'hydrusBatchSauce/corposim'}, auth=requests.auth.HTTPBasicAuth(username, api))
     if response.status_code == 200:
         isdeleted = response.json()["post"]["flags"]["deleted"]
         if isdeleted == True:
-            print("Post was deleted")
             return True
         else:
             return False
+def look_in_FA():
+    second_json_data = post("https://api.fluffle.xyz/v1/search", headers=headers, files=files, data = {"includeNsfw": True,"platforms": ["fur affinity"],"limit": 8}).json()
+    print("\tFA: " + str(second_json_data["results"][0]["location"]) + "    " + str(round(second_json_data["results"][0]["score"]*100))+ "%")
+    if round(second_json_data["results"][0]["score"]*100) >= 95:
+        pass
 
 def main():
     return 0
@@ -69,6 +74,9 @@ print('We found ' + str(len(image_list)) + ' files\n')
 counter = 1
 
 video_check(image_list)
+
+os.mkdir("e621")
+found_e621 = []
 
 for i in image_list:
     # Preprocess the image as per Fluffle its documentation
@@ -97,23 +105,21 @@ for i in image_list:
     print(str(counter) + ". ", json_data["results"][g]["location"], str(round(json_data["results"][g]["score"]*100)) + "%")
     ids = json_data["results"][g]["location"].split("/")[-1]
     
-    if json_data["results"][g]["score"]*100 >= 95 and is_deleted_e621(json_data["results"][g]["location"]) == False:
-        download_image(json_data["results"][g]["location"])
-        favorite_post(ids, username, api)
-        os.remove(i)
+    if json_data["results"][g]["score"]*100 >= 95:
+        if is_deleted_e621(json_data["results"][g]["location"]) == False:
+            file_name = download_image(json_data["results"][g]["location"])
+            favorite_post(ids, username, api)
+            os.remove(i)
+            image.close()
+            shutil.move(dir + "\\" + file_name, dir+'\\e621')
+        else:
+            print("Warning! The post has been deleted from e621\n")
+            look_in_FA()
     else:
-        print("\tWarning! Low similarity score!\n\tThe post was not dowloaded and wasnot added to your favourites on e621!")
-        second_json_data = post("https://api.fluffle.xyz/v1/search", headers=headers, files=files, data = {"includeNsfw": True,"platforms": ["fur affinity"],"limit": 8}).json()
-        print("\tGo check " + str(second_json_data["results"][0]["location"]) + " instead    " + str(round(second_json_data["results"][0]["score"]*100))+ "%")
+        print("\tWarning! Low similarity score!\n")
+        look_in_FA()
     counter+=1
     image.close()
 
 if __name__ == "__main__":
     main()
-
-"""
-Added counter
-Added video remover
-Added image downloader
-Removed pycach
-"""
