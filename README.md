@@ -11,10 +11,6 @@ Go to Account → Manage API Access → Insert your password → Copy the API ke
 
 ### Known Issues:
 
-♦ It is slow.
-
 ♦ It cannot work with subfolders.
 
 ♦ It cannot look for videos and animated GIFs.
-
-♦ It says success for deleted from e621 files, and then deletes the file itself on the sortation procedure.
