@@ -1,16 +1,20 @@
-# E621 Favourites
+# E621 Fav Tagger
 
-This software goes through photos, searches for them on e621 and adds them to your e621 account favourites.
-In the end, the programm will replace the existed files with the best resolution from e621 and sort files to two folders. First folder is what It managed to find on e621, and the second one is for files it couldn't find.
-For this program to use, you are required to have an e621 account, where you can generate API key.
+E621 Fav Tagger is a tool designed to help you organize your furry image collection by adding images to your favorites on e621. This program searches for your images on e621, saves them to your account's favorites, and replaces any existing files with the highest-resolution versions available there. Finally, it sorts your images into "Found" and "Not Found" folders for easy management.
 
-!I strongly reccomend to do a **backup** before useing this programm.
+**Requirements**: An e621 account with an API key.
 
-### How to get API key
-Go to Account → Manage API Access → Insert your password → Copy the API key on the left column.
+**Use Case**: If you've saved furry images from various platforms like Reddit, Telegram, etc., and want to structure them or add them to your e621 favorites, this program is perfect for you.
 
-### Known Issues:
+**Important**: Before using this program, it is strongly recommended to back up your files.
+## How to Obtain Your API Key:
 
-♦ It cannot work with subfolders.
+1. Log into your e621 account.
+2. Navigate to Account → Manage API Access.
+3. Enter your password.
+4. Copy the API key displayed in the left column.
 
-♦ It cannot look for videos and animated GIFs.
+## Known Limitations:
+
+1. The program does not support subfolders.
+2. It cannot process videos or animated GIFs.
